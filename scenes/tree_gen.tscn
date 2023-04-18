@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://cqp66pdr6a675"]
+
+[ext_resource type="Script" path="res://scenes/tree_gen.gd" id="1_pm3yb"]
+
+[sub_resource type="Curve" id="Curve_f6fd4"]
+_data = [Vector2(0, 0), 0.0, 3.13846, 0, 0, Vector2(0.849265, 0.981818), -0.935626, -0.935626, 0, 0, Vector2(1, 0.127273), -11.5394, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y6kqy"]
+cull_mode = 2
+albedo_color = Color(0, 0.360784, 0.00784314, 1)
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_gdy1l"]
+material = SubResource("StandardMaterial3D_y6kqy")
+size = 7.837
+sections = 2
+section_length = 6.30223
+curve = SubResource("Curve_f6fd4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xtkgo"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_os6yt"]
+material = SubResource("StandardMaterial3D_xtkgo")
+top_radius = 0.2842
+bottom_radius = 0.406
+height = 8.50854
+radial_segments = 8
+rings = 1
+
+[node name="TreeGen" type="Node3D"]
+script = ExtResource("1_pm3yb")
+total_tree_height = 21.113
+leaves_radius = 7.837
+trunk_radius = 0.406
+leave_coverage = 0.597
+leave_mesh = SubResource("RibbonTrailMesh_gdy1l")
+trunk_mesh = SubResource("CylinderMesh_os6yt")
+
+[node name="TreeLeaves" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.8108, 0)
+mesh = SubResource("RibbonTrailMesh_gdy1l")
+
+[node name="TreeTrunk" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25427, 0)
+mesh = SubResource("CylinderMesh_os6yt")
+
+[node name="Output" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Output"]

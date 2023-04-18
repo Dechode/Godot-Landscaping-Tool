@@ -1,0 +1,16 @@
+[gd_resource type="TubeTrailMesh" load_steps=3 format=3 uid="uid://djxdg2wq67ebx"]
+
+[sub_resource type="Curve" id="Curve_5ilqd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x1vug"]
+albedo_color = Color(0.654902, 0.654902, 0.654902, 1)
+metallic = 1.0
+roughness = 0.42
+
+[resource]
+material = SubResource("StandardMaterial3D_x1vug")
+radius = 0.03
+sections = 2
+section_length = 0.5
+section_rings = 1
+curve = SubResource("Curve_5ilqd")

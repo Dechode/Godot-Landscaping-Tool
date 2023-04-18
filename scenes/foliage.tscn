@@ -1,0 +1,55 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Shader" path="res://shaders/foliage.gdshader" id="1_oegeg"]
+[ext_resource type="Texture2D" uid="uid://cqowll3epe3uh" path="res://heightmap.tres" id="2_qw1oy"]
+[ext_resource type="RibbonTrailMesh" uid="uid://bm1jgxdyivl5e" path="res://meshes/grass.tres" id="3_4gp6u"]
+
+[sub_resource type="Gradient" id="Gradient_wqtn7"]
+offsets = PackedFloat32Array(0, 0.526316)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qwy0l"]
+noise_type = 2
+seed = 75
+frequency = 0.018
+fractal_type = 3
+fractal_octaves = 2
+fractal_lacunarity = 1.435
+fractal_gain = 1.921
+fractal_ping_pong_strength = 3.767
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_if4hk"]
+color_ramp = SubResource("Gradient_wqtn7")
+noise = SubResource("FastNoiseLite_qwy0l")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bq4kr"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_orbd8"]
+generate_mipmaps = false
+as_normal_map = true
+noise = SubResource("FastNoiseLite_bq4kr")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ttoc3"]
+shader = ExtResource("1_oegeg")
+shader_parameter/terrain_size = Vector2(512, 512)
+shader_parameter/terrain_max_height = 5.0
+shader_parameter/rows = 20.0
+shader_parameter/spacing = 1.0
+shader_parameter/orient_to_normal = true
+shader_parameter/scale = Vector3(1, 1, 1)
+shader_parameter/offset = Vector3(0, 0.245, 0)
+shader_parameter/randomize_position = 0.727
+shader_parameter/randomize_rotation = 1.0
+shader_parameter/terrain_heightmap = ExtResource("2_qw1oy")
+shader_parameter/terrain_normalmap = SubResource("NoiseTexture2D_orbd8")
+shader_parameter/foliage_patch_map = SubResource("NoiseTexture2D_if4hk")
+
+[node name="Foliage" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.95264, -11.1629)
+amount = 1000
+lifetime = 0.01
+explosiveness = 1.0
+interpolate = false
+fract_delta = false
+visibility_aabb = AABB(-9.04563, -1.85018, -10.4231, 18.0913, 3.70037, 20.8462)
+process_material = SubResource("ShaderMaterial_ttoc3")
+draw_pass_1 = ExtResource("3_4gp6u")

@@ -11,6 +11,6 @@ config_version=5
 [application]
 
 config/name="Landscape tool"
-run/main_scene="res://terrain.tscn"
+run/main_scene="res://scenes/terrain.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"
