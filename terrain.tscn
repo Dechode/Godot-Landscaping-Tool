@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bvqt8hyejxh1u"]
+[gd_scene load_steps=20 format=3 uid="uid://bvqt8hyejxh1u"]
 
 [ext_resource type="Script" path="res://terrain.gd" id="1_605vr"]
 [ext_resource type="Shader" path="res://shaders/terrain_shader.gdshader" id="2_4k11r"]
@@ -47,11 +47,28 @@ sky_material = SubResource("ProceduralSkyMaterial_u5247")
 background_mode = 2
 sky = SubResource("Sky_shn81")
 
+[sub_resource type="Gradient" id="Gradient_wqtn7"]
+offsets = PackedFloat32Array(0, 0.526316)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qwy0l"]
+noise_type = 2
+seed = 75
+frequency = 0.018
+fractal_type = 3
+fractal_octaves = 2
+fractal_lacunarity = 1.435
+fractal_gain = 1.921
+fractal_ping_pong_strength = 3.767
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_if4hk"]
+color_ramp = SubResource("Gradient_wqtn7")
+noise = SubResource("FastNoiseLite_qwy0l")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ttoc3"]
 shader = ExtResource("4_acbbf")
 shader_parameter/terrain_size = Vector2(512, 512)
 shader_parameter/terrain_max_height = 4.723
-shader_parameter/rows = 10.0
+shader_parameter/rows = 20.0
 shader_parameter/spacing = 1.0
 shader_parameter/orient_to_normal = true
 shader_parameter/scale = Vector3(1, 1, 1)
@@ -60,6 +77,7 @@ shader_parameter/randomize_position = 0.727
 shader_parameter/randomize_rotation = 1.0
 shader_parameter/terrain_heightmap = ExtResource("3_lobi0")
 shader_parameter/terrain_normalmap = SubResource("NoiseTexture2D_nmuwt")
+shader_parameter/foliage_patch_map = SubResource("NoiseTexture2D_if4hk")
 
 [node name="Terrain" type="Node3D"]
 script = ExtResource("1_605vr")
@@ -90,7 +108,7 @@ directional_shadow_pancake_size = 19.1
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.95264, -11.1629)
-amount = 120
+amount = 1000
 lifetime = 0.01
 explosiveness = 1.0
 interpolate = false

@@ -49,12 +49,14 @@ void start() {
 	pos.z += EMISSION_TRANSFORM[3][2] - mod(EMISSION_TRANSFORM[3][2], spacing);
 	
 	vec3 noise = texture(terrain_heightmap, pos.xz * 0.1).rgb;
-	pos.x += noise.z * spacing * randomize_position; // * instance_pos_randomize;
-	pos.z -= noise.x * spacing * randomize_position; // * instance_pos_randomize;
+	pos.x += noise.z * spacing * randomize_position;
+	pos.z -= noise.x * spacing * randomize_position;
 	pos.y = get_height(pos.xz);
 	
 	pos += offset;
 	
+	vec3 patch = texture(foliage_patch_map, pos.xz).rgb;
+	pos.y += -10.0 * step(0.9, patch.x);
 	if (orient_to_normal == true)
 	{
 	TRANSFORM[1].xyz = get_normal(pos.xz); //* instance_orientation_influence;
