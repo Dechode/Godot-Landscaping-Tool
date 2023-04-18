@@ -80,7 +80,15 @@ func _update_terrain_w_params(width: int, depth: int, height_ratio: float, mesh_
 	var shader := terrain_mesh.get_active_material(0)
 	var normalmap := heightmap_texture.duplicate(true)
 	normalmap.as_normal_map = true
-	shader.set_shader_parameter("height_ratio", height_ratio)
-	shader.set_shader_parameter("heightmap", heightmap_texture)
+	shader.set_shader_parameter("terrain_max_height", height_ratio)
+	shader.set_shader_parameter("terrain_heightmap", heightmap_texture)
 	shader.set_shader_parameter("terrain_normalmap", normalmap)
+	
+	var pfx_shader = $GPUParticles3D.process_material # as ShaderMaterial
+	print("particle shader = " + str(pfx_shader))
+	pfx_shader.set_shader_parameter("terrain_heightmap", heightmap_texture)
+	pfx_shader.set_shader_parameter("terrain_normalmap", normalmap)
+	pfx_shader.set_shader_parameter("terrain_size", Vector2(width, depth))
+	pfx_shader.set_shader_parameter("terrain_max_height", height_ratio)
+	
 

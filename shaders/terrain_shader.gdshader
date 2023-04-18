@@ -1,8 +1,8 @@
 shader_type spatial;
 
-uniform sampler2D heightmap;
+uniform sampler2D terrain_heightmap;
 uniform sampler2D terrain_normalmap;
-uniform float height_ratio = 1.0;
+uniform float terrain_max_height = 1.0;
 
 uniform sampler2D terrain_color;
 
@@ -24,7 +24,7 @@ void fragment() {
 	vec3 normal = unpack_normals(texture(terrain_normalmap, UV));
 	normal = normalize(normal);
 	
-	float pos = vertex_y / height_ratio;
+	float pos = vertex_y / terrain_max_height;
 	vec3 color = texture(terrain_color, vec2(pos, 0)).rgb;
 	
 	
@@ -40,7 +40,7 @@ void fragment() {
 }
 
 void vertex() {
-	VERTEX.y += texture(heightmap, UV).r * height_ratio;
+	VERTEX.y += texture(terrain_heightmap, UV).r * terrain_max_height;
 	vertex_y = VERTEX.y;
 	vec4 normalmap = texture(terrain_normalmap, UV);
 	NORMAL = unpack_normals(normalmap);
